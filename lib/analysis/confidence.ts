@@ -1,4 +1,4 @@
-import { calculatePaceConsistencyScore } from './speaking-pace'
+import { getPaceConsistencyScore } from './speaking-pace'
 import { calculateFillerWordPercentage } from './filler-words'
 
 export interface ConfidenceFactors {
@@ -18,7 +18,7 @@ export function calculateConfidenceScore(factors: {
   totalDuration: number
 }): { score: number; factors: ConfidenceFactors } {
   // 1. Pace Consistency (30%)
-  const paceConsistency = calculatePaceConsistencyScore(factors.paceVariance)
+  const paceConsistency = getPaceConsistencyScore(factors.paceVariance)
 
   // 2. Filler Word Score (25%)
   const fillerPercentage = calculateFillerWordPercentage(

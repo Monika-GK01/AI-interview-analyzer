@@ -14,6 +14,9 @@ export interface Database {
           id: string
           full_name: string | null
           avatar_url: string | null
+          is_admin: boolean
+          last_login_at: string | null
+          login_count: number
           created_at: string
           updated_at: string
         }
@@ -21,6 +24,9 @@ export interface Database {
           id: string
           full_name?: string | null
           avatar_url?: string | null
+          is_admin?: boolean
+          last_login_at?: string | null
+          login_count?: number
           created_at?: string
           updated_at?: string
         }
@@ -28,6 +34,9 @@ export interface Database {
           id?: string
           full_name?: string | null
           avatar_url?: string | null
+          is_admin?: boolean
+          last_login_at?: string | null
+          login_count?: number
           created_at?: string
           updated_at?: string
         }
@@ -169,6 +178,15 @@ export interface Database {
           created_at?: string
         }
       }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
     }
   }
 }
