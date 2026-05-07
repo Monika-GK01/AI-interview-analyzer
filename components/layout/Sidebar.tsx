@@ -7,7 +7,6 @@ import {
   HomeIcon,
   MicrophoneIcon,
   ClockIcon,
-  ChartBarIcon,
   Cog6ToothIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline'
@@ -16,7 +15,6 @@ const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
   { name: 'New Interview', href: '/interview/new', icon: MicrophoneIcon },
   { name: 'History', href: '/history', icon: ClockIcon },
-  { name: 'Analytics', href: '/analytics', icon: ChartBarIcon },
   { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
 ]
 

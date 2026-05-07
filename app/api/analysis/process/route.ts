@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       .select('*')
       .eq('id', interview_id)
       .eq('user_id', user.id)
-      .single()
+      .maybeSingle()
 
     if (interviewError || !interview) {
       return NextResponse.json(
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
         ...analysisResult,
       })
       .select()
-      .single()
+      .maybeSingle()
 
     if (analysisError) throw analysisError
 

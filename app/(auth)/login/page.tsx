@@ -29,6 +29,25 @@ export default function LoginPage() {
 
       if (error) throw error
 
+      // Update login tracking
+      if (data.user) {
+        // Get current login count
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('login_count')
+          .eq('id', data.user.id)
+          .single()
+
+        // Update with new values
+        await supabase
+          .from('profiles')
+          .update({
+            last_login_at: new Date().toISOString(),
+            login_count: (profile?.login_count || 0) + 1
+          })
+          .eq('id', data.user.id)
+      }
+
       router.push('/dashboard')
       router.refresh()
     } catch (err: any) {

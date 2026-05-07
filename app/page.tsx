@@ -9,23 +9,30 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+      <nav className="border-b bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <SparklesIcon className="h-8 w-8 text-primary-600" />
-              <span className="text-xl font-bold text-gray-900">
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <SparklesIcon className="h-10 w-10 text-blue-600 animate-float" />
+                <div className="absolute inset-0 h-10 w-10 text-purple-600 animate-pulse opacity-50">
+                  <SparklesIcon className="h-10 w-10" />
+                </div>
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 AI Interview Analyzer
               </span>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/login">
-                <Button variant="ghost">Log In</Button>
+                <Button variant="ghost" className="font-semibold">Log In</Button>
               </Link>
               <Link href="/signup">
-                <Button>Get Started</Button>
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                  Get Started Free
+                </Button>
               </Link>
             </div>
           </div>
@@ -35,35 +42,65 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <div className="inline-block mb-4">
+            <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+              🚀 AI-Powered Interview Practice
+            </span>
+          </div>
+          <h1 className="text-6xl md:text-7xl font-extrabold text-gray-900 mb-6 leading-tight">
             Master Your Interview Skills with{' '}
-            <span className="text-primary-600">AI-Powered Analysis</span>
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient">
+              AI-Powered Analysis
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Practice mock interviews and receive instant feedback on your
+          <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+            Practice mock interviews and receive instant, detailed feedback on your
             confidence, speaking pace, filler words, and emotional engagement.
-            Improve your performance with data-driven insights.
+            <span className="block mt-2 font-semibold text-blue-600">
+              Improve your performance with data-driven insights.
+            </span>
           </p>
-          <div className="flex justify-center space-x-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
             <Link href="/signup">
-              <Button size="lg">Start Free Trial</Button>
-            </Link>
-            <Link href="#features">
-              <Button size="lg" variant="outline">
-                Learn More
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-4 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 transition-all">
+                <SparklesIcon className="h-6 w-6 mr-2" />
+                Start Free Trial
               </Button>
             </Link>
+            <Link href="#features">
+              <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2 border-blue-600 text-blue-600 hover:bg-blue-50">
+                Learn More →
+              </Button>
+            </Link>
+          </div>
+
+          {/* Trust Badges */}
+          <div className="flex flex-wrap justify-center gap-8 text-sm text-gray-600 mb-12">
+            <div className="flex items-center space-x-2">
+              <span className="text-green-500 text-xl">✓</span>
+              <span>100% Free to Start</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-green-500 text-xl">✓</span>
+              <span>No Credit Card Required</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-green-500 text-xl">✓</span>
+              <span>Instant Analysis</span>
+            </div>
           </div>
         </div>
 
         {/* Demo Video/Image Placeholder */}
-        <div className="mt-16 rounded-2xl shadow-2xl overflow-hidden border-4 border-white">
-          <div className="bg-gradient-to-br from-primary-100 to-blue-100 aspect-video flex items-center justify-center">
-            <div className="text-center">
-              <MicrophoneIcon className="h-24 w-24 text-primary-600 mx-auto mb-4" />
-              <p className="text-gray-600 text-lg">
+        <div className="mt-16 rounded-3xl shadow-2xl overflow-hidden border-8 border-white transform hover:scale-105 transition-transform duration-300">
+          <div className="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 aspect-video flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 animate-gradient"></div>
+            <div className="text-center z-10">
+              <MicrophoneIcon className="h-32 w-32 text-blue-600 mx-auto mb-6 animate-float" />
+              <p className="text-gray-700 text-2xl font-semibold">
                 Interactive Interview Session Demo
               </p>
+              <p className="text-gray-600 mt-2">Real-time analysis as you speak</p>
             </div>
           </div>
         </div>

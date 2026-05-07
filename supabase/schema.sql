@@ -8,6 +8,9 @@ CREATE TABLE profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   full_name TEXT,
   avatar_url TEXT,
+  is_admin BOOLEAN DEFAULT FALSE,
+  last_login_at TIMESTAMP WITH TIME ZONE,
+  login_count INTEGER DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -123,3 +126,18 @@ COMMENT ON TABLE interviews IS 'Mock interview sessions';
 COMMENT ON TABLE interview_transcripts IS 'Real-time transcription data from interviews';
 COMMENT ON TABLE interview_analysis IS 'Computed analysis metrics for completed interviews';
 COMMENT ON TABLE filler_words IS 'Tracking of filler words used during interviews';
+
+-- Function to increment login count
+CREATE OR REPLACE FUNCTION increment_login_count(user_id UUID)
+RETURNS INTEGER AS $$
+DECLARE
+  new_count INTEGER;
+BEGIN
+  UPDATE profiles
+  SET login_count = COALESCE(login_count, 0) + 1
+  WHERE id = user_id
+  RETURNING login_count INTO new_count;
+  
+  RETURN new_count;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
