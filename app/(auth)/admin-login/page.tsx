@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
-import { ShieldCheckIcon, SparklesIcon } from '@heroicons/react/24/outline'
+import { ShieldCheckIcon } from '@heroicons/react/24/outline'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -22,8 +21,8 @@ export default function AdminLoginPage() {
 
     try {
       const supabase = createClient()
-      
-      // First, authenticate the user
+
+      // Authenticate user
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -31,37 +30,36 @@ export default function AdminLoginPage() {
 
       if (error) throw error
 
-      // Check if user is admin
+      // Check admin status
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('is_admin')
         .eq('id', data.user.id)
-        .single()
+        .single<{ is_admin: boolean }>()
 
       if (profileError) throw profileError
 
       if (!profile?.is_admin) {
-        // Not an admin, log them out
         await supabase.auth.signOut()
         throw new Error('Access denied. Admin privileges required.')
       }
 
-      // Update login tracking for admin
+      // Get current login count
       const { data: currentProfile } = await supabase
         .from('profiles')
         .select('login_count')
         .eq('id', data.user.id)
-        .single()
+        .single<{ login_count: number }>()
 
+      // Update tracking
       await supabase
         .from('profiles')
         .update({
           last_login_at: new Date().toISOString(),
-          login_count: (currentProfile?.login_count || 0) + 1
+          login_count: (currentProfile?.login_count || 0) + 1,
         })
         .eq('id', data.user.id)
 
-      // Redirect to admin dashboard
       router.push('/admin')
       router.refresh()
     } catch (err: any) {
@@ -83,10 +81,14 @@ export default function AdminLoginPage() {
               </div>
             </div>
           </Link>
+
           <h1 className="text-4xl font-bold text-white mb-2">
             🔐 Admin Access
           </h1>
-          <p className="text-gray-300">Authorized Personnel Only</p>
+
+          <p className="text-gray-300">
+            Authorized Personnel Only
+          </p>
         </div>
 
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20">
@@ -104,6 +106,7 @@ export default function AdminLoginPage() {
               <label className="block text-sm font-medium text-gray-200 mb-2">
                 Admin Email
               </label>
+
               <input
                 type="email"
                 value={email}
@@ -118,6 +121,7 @@ export default function AdminLoginPage() {
               <label className="block text-sm font-medium text-gray-200 mb-2">
                 Admin Password
               </label>
+
               <input
                 type="password"
                 value={password}
@@ -128,9 +132,9 @@ export default function AdminLoginPage() {
               />
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-gray-900 font-bold py-3 shadow-lg hover:shadow-xl" 
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-gray-900 font-bold py-3 shadow-lg hover:shadow-xl"
               isLoading={isLoading}
             >
               <ShieldCheckIcon className="h-5 w-5 mr-2" />
