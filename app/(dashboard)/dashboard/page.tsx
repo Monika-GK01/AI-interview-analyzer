@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import type { Database } from '@/types/database'
 import Button from '@/components/ui/Button'
 import Card, { CardHeader, CardBody } from '@/components/ui/Card'
 import {
@@ -22,7 +23,7 @@ export default async function DashboardPage() {
     .select('*')
     .eq('user_id', user!.id)
     .order('created_at', { ascending: false })
-    .limit(5)
+    .limit(5) as { data: Database['public']['Tables']['interviews']['Row'][] | null }
 
   // Fetch statistics
   const { count: totalInterviews } = await supabase
@@ -43,7 +44,7 @@ export default async function DashboardPage() {
     .in(
       'interview_id',
       interviews?.map((i) => i.id) || []
-    )
+    ) as { data: { confidence_score: number; interview_id: string }[] | null }
 
   const avgConfidence =
     analysisData && analysisData.length > 0

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import type { Database } from '@/types/database'
 import Card, { CardHeader, CardBody } from '@/components/ui/Card'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { formatDate } from '@/lib/utils/format'
@@ -56,7 +57,7 @@ export default function AdminDashboard() {
         .from('profiles')
         .select('is_admin')
         .eq('id', user.id)
-        .single()
+        .single() as { data: Database['public']['Tables']['profiles']['Row'] | null }
 
       if (!profile?.is_admin) {
         router.push('/dashboard')
@@ -109,11 +110,11 @@ export default function AdminDashboard() {
       // Calculate stats
       const { data: interviews } = await supabase
         .from('interviews')
-        .select('status')
+        .select('status') as { data: Database['public']['Tables']['interviews']['Row'][] | null }
 
       const { data: analysis } = await supabase
         .from('interview_analysis')
-        .select('confidence_score')
+        .select('confidence_score') as { data: { confidence_score: number }[] | null }
 
       const avgConfidence = analysis && analysis.length > 0
         ? analysis.reduce((sum, a) => sum + Number(a.confidence_score), 0) / analysis.length

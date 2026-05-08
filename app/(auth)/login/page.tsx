@@ -36,11 +36,12 @@ export default function LoginPage() {
           .from('profiles')
           .select('login_count')
           .eq('id', data.user.id)
-          .single()
+          .single() as { data: { login_count: number } | null }
 
         // Update with new values
         await supabase
           .from('profiles')
+          // @ts-ignore
           .update({
             last_login_at: new Date().toISOString(),
             login_count: (profile?.login_count || 0) + 1

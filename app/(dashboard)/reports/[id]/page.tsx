@@ -59,6 +59,8 @@ export default function ReportPage() {
       const safeAnalysis =
         analysisData ||
         ({
+          id: 'mock-analysis-id',
+          interview_id: interviewId,
           confidence_score: 84,
           speaking_pace_wpm: 132,
           nervousness_score: 24,
@@ -68,11 +70,20 @@ export default function ReportPage() {
           filler_word_count: 5,
           filler_word_percentage: 1.2,
           average_pause_duration_ms: 850,
+          longest_pause_duration_ms: 2000,
           analysis_data: {
+            pace_variance: 15,
+            sentiment_scores: {
+              positive: 0.6,
+              negative: 0.1,
+              neutral: 0.3,
+            },
+            vocabulary_richness: 0.49,
+            pause_distribution: [800, 900, 1000],
             speaking_pace_over_time: [
-              { time: 0, wpm: 120 },
-              { time: 1, wpm: 135 },
-              { time: 2, wpm: 142 },
+              { timestamp: 0, wpm: 120 },
+              { timestamp: 1, wpm: 135 },
+              { timestamp: 2, wpm: 142 },
             ],
             filler_word_breakdown: {
               um: 2,
@@ -81,6 +92,8 @@ export default function ReportPage() {
               actually: 1,
             },
           },
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         } as InterviewAnalysis)
 
       setInterview(safeInterview)

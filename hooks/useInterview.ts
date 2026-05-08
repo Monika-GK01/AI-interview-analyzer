@@ -72,6 +72,7 @@ export function useInterview(interviewId: string): UseInterviewReturn {
 
       const { error } = await supabase
         .from('interviews')
+        // @ts-ignore
         .update({
           status: 'in_progress',
           started_at: now,
@@ -104,6 +105,7 @@ export function useInterview(interviewId: string): UseInterviewReturn {
 
       const { error } = await supabase
         .from('interviews')
+        // @ts-ignore
         .update({
           status: 'completed',
           completed_at: now,

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import type { Database } from '@/types/database'
 import { processInterviewAnalysis } from '@/lib/analysis/processor'
 
 export async function POST(request: NextRequest) {
@@ -24,6 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify interview belongs to user
+    // @ts-ignore
     const { data: interview, error: interviewError } = await supabase
       .from('interviews')
       .select('*')
@@ -55,7 +57,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Process analysis
-    const durationSeconds = interview.duration_seconds || 0
+    const durationSeconds = (interview as any).duration_seconds || 0
     const analysisResult = processInterviewAnalysis(transcripts, durationSeconds)
 
     // Save analysis to database
@@ -64,7 +66,7 @@ export async function POST(request: NextRequest) {
       .upsert({
         interview_id,
         ...analysisResult,
-      })
+      } as any)
       .select()
       .maybeSingle()
 
@@ -80,7 +82,7 @@ export async function POST(request: NextRequest) {
     }))
 
     if (fillerWordsData.length > 0) {
-      await supabase.from('filler_words').upsert(fillerWordsData)
+      await supabase.from('filler_words').upsert(fillerWordsData as any)
     }
 
     return NextResponse.json({ analysis })

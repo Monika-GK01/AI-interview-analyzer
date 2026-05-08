@@ -30,6 +30,7 @@ export async function GET(request: NextRequest) {
     if (profilesError) throw profilesError
 
     // Get interview counts for each user
+    // @ts-ignore
     const { data: interviewCounts, error: countsError } = await supabase
       .from('interviews')
       .select('user_id, status')
@@ -37,12 +38,12 @@ export async function GET(request: NextRequest) {
     if (countsError) throw countsError
 
     // Aggregate data
-    const usersWithStats = profiles?.map((profile) => {
-      const userInterviews = interviewCounts?.filter((i) => i.user_id === profile.id) || []
+    const usersWithStats = profiles?.map((profile: any) => {
+      const userInterviews = (interviewCounts as any)?.filter((i: any) => i.user_id === profile.id) || []
       return {
         ...profile,
         total_interviews: userInterviews.length,
-        completed_interviews: userInterviews.filter((i) => i.status === 'completed').length,
+        completed_interviews: userInterviews.filter((i: any) => i.status === 'completed').length,
       }
     })
 

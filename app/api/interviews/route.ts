@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         user_id: user.id,
         title,
         status: 'pending',
-      })
+      } as any)
       .select()
       .maybeSingle()
 

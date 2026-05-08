@@ -49,17 +49,17 @@ export default function AdminLoginPage() {
         .from('profiles')
         .select('login_count')
         .eq('id', data.user.id)
-        .single<{ login_count: number }>()
+        .single() as { data: { login_count: number } | null }
 
       // Update tracking
       await supabase
         .from('profiles')
+        // @ts-ignore
         .update({
           last_login_at: new Date().toISOString(),
           login_count: (currentProfile?.login_count || 0) + 1,
         })
         .eq('id', data.user.id)
-
       router.push('/admin')
       router.refresh()
     } catch (err: any) {

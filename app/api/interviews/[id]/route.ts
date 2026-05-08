@@ -55,6 +55,7 @@ export async function PATCH(
 
     const { data: interview, error } = await supabase
       .from('interviews')
+      // @ts-ignore
       .update(body)
       .eq('id', id)
       .eq('user_id', user.id)

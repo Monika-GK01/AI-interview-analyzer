@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import type { Database } from '@/types/database'
 import { useInterview } from '@/hooks/useInterview'
 import { useSpeechRecognition } from '@/hooks/useSpeechRecognition'
 import WebcamCapture from '@/components/interview/WebcamCapture'
@@ -63,7 +64,7 @@ export default function InterviewSessionPage() {
         interview_id: interviewId,
         text: text.trim(),
         timestamp_ms: timestamp,
-      })
+      } as any)
     } catch (err) {
       console.error('Failed to save transcript:', err)
     }

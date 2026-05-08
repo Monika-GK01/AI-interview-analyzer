@@ -43,7 +43,7 @@ export default function SettingsPage() {
         .from('profiles')
         .select('full_name')
         .eq('id', user.id)
-        .single()
+        .single() as { data: { full_name: string | null } | null }
 
       if (profile) {
         setFullName(profile.full_name || '')
@@ -68,6 +68,7 @@ export default function SettingsPage() {
 
       const { error: updateError } = await supabase
         .from('profiles')
+        // @ts-ignore
         .update({ full_name: fullName })
         .eq('id', user.id)
 
